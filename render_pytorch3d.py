@@ -41,12 +41,12 @@ from IPython import embed
 t = time.time()
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-obj_filename = 'cow.obj'
+obj_filename = 'obj/cow.obj'
 mesh = load_objs_as_meshes([obj_filename], device=device)
 
 plt.figure(figsize=(7,7))
 texture_image=mesh.textures.maps_padded()
-plt.imsave('texture.png', texture_image.squeeze().cpu().numpy())
+plt.imsave('imgs/texture.png', texture_image.squeeze().cpu().numpy())
 # plt.imshow(texture_image.squeeze().cpu().numpy())
 # plt.axis("off");
 print('time: ', time.time() - t)
@@ -76,7 +76,7 @@ renderer = MeshRenderer(
 )
 
 images = renderer(mesh)
-plt.imsave('images.png', images[0, ..., :3].squeeze().cpu().numpy())
+plt.imsave('imgs/images.png', images[0, ..., :3].squeeze().cpu().numpy())
 # plt.figure(figsize=(10, 10))
 # plt.imshow(images[0, ..., :3].cpu().numpy())
 # plt.axis("off");
@@ -85,7 +85,7 @@ plt.imsave('images.png', images[0, ..., :3].squeeze().cpu().numpy())
 lights.location = torch.tensor([0.0, 0.0, +1.0], device=device)[None]
 images = renderer(mesh, lights=lights)
 
-plt.imsave('images1.png', images[0, ..., :3].squeeze().cpu().numpy())
+plt.imsave('imgs/images1.png', images[0, ..., :3].squeeze().cpu().numpy())
 
 
 # Rotate the object by increasing the elevation and azimuth angles
@@ -105,11 +105,11 @@ materials = Materials(
 # Re render the mesh, passing in keyword arguments for the modified components.
 images = renderer(mesh, lights=lights, materials=materials, cameras=cameras)
 
-plt.imsave('images2.png', images[0, ..., :3].squeeze().cpu().numpy())
+plt.imsave('imgs/images2.png', images[0, ..., :3].squeeze().cpu().numpy())
 print('time: ', time.time() - t)
 
 # Set batch size - this is the number of different viewpoints from which we want to render the mesh.
-batch_size = 20
+batch_size = 2
 
 t = time.time()
 # Create a batch of meshes by repeating the cow mesh and associated textures.
@@ -137,5 +137,5 @@ images = renderer(meshes, cameras=cameras, lights=lights)
 print('time: ', time.time() - t)
 
 for i, image in enumerate(images):
-    plt.imsave('image-%0d.png' % i, image[..., :3].squeeze().cpu().numpy())
+    plt.imsave('imgs/image-%0d.png' % i, image[..., :3].squeeze().cpu().numpy())
 
