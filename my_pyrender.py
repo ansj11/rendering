@@ -21,7 +21,7 @@ from pyrender import PerspectiveCamera,\
 #------------------------------------------------------------------------------
 
 # Drill trimesh
-cow_trimesh = trimesh.load('/Users/anshijie/Desktop/cow.obj')
+cow_trimesh = trimesh.load('./data/cow.obj')
 cow_mesh = Mesh.from_trimesh(cow_trimesh)
 cow_pose = np.eye(4)
 cow_pose[0,3] = 0.1
