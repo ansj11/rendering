@@ -31,8 +31,8 @@ class Canvas_view():
         self.view.camera.depth_value = 10 * (vertices.max() - vertices.min())
         self.mesh = visuals.Mesh(vertices, faces, shading=None, color='white')
         self.mesh.transform = transforms.MatrixTransform()
-        self.mesh.transform.rotate(90, (1, 0, 0))
-        # self.mesh.transform.rotate(135, (0, 0, 1))
+        # self.mesh.transform.rotate(90, (1, 0, 0))
+        self.mesh.transform.rotate(180, (0, 0, 1))
         self.mesh.attach(Alpha(1.0))
         self.view.add(self.mesh)
         self.tr = self.view.camera.transform
@@ -66,12 +66,12 @@ class Canvas_view():
 
 
 def get_pose(i, video_traj_type, focus_point, mean_loc_depth):
-    upper, lower = 50, -5
+    upper, lower = 20, -5
     height = abs(np.tan(53 / 180 * np.pi / 2) * focus_point[2])
     dmax = height * np.tan((53 - lower) / 180 * np.pi / 2)
     dmin = height * np.tan((53 + upper) / 180 * np.pi / 2)
     zrange = dmax - dmin
-    x_range, y_range = focus_point[0] / 2, focus_point[1]/2
+    x_range, y_range = focus_point[0] / 4, focus_point[1]/4
     xs, ys, zs = [], [], []
     num_frames = 82
     pose = np.eye(4)
@@ -101,7 +101,8 @@ if __name__ == "__main__":
     mesh_path = load_data_file('spot/spot.obj.gz')
     texture_path = load_data_file('spot/spot.png')
     vertices, faces, normals, texcoords = read_mesh(mesh_path)
-    texture = np.flipud(imread(texture_path))
+    # texture = np.flipud(imread(texture_path))
+    texture = imread(texture_path)
     colors = None
 
     fov = 68.0
